@@ -1,0 +1,32 @@
+body {
+    background-color: black;
+    color: #00ff00;
+    font-family: 'Courier New', monospace;
+    text-align: center;
+    padding: 20px;
+}
+
+.container {
+    max-width: 600px;
+    margin: auto;
+    border: 2px solid #00ff00;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #00ff00;
+}
+
+.profile-img {
+    width: 200px;
+    border: 3px solid #00ff00;
+    border-radius: 50%;
+    margin-top: 10px;
+}
+
+.intro {
+    font-size: 18px;
+}
+
+.motto {
+    font-style: italic;
+    font-size: 16px;
+}
