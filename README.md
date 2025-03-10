@@ -19,7 +19,7 @@ This project is a simple introduction to web development using HTML and JavaScri
 
 ## Social Media
 Stay connected and follow for more updates:
-- **GitHub:** [NelloW](https://github.com/popepo123)
+- **GitHub:** [ShardoX](https://github.com/popepo123)
 - **Discord:** [ShardoX](https://discord.gg/PRNUmK7ZBG)
 
 ## License
